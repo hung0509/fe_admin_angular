@@ -16,9 +16,8 @@ import { PaymentResultComponent } from './features/payment-result/payment-result
 import { ServerErrorComponent } from './core/errors/server-error/server-error.component';
 import { verifyComponent } from './features/authentication/verify/verify.component';
 import { SetPassComponent } from './features/authentication/set-password/set-password.component';
-import { ProductAdminComponent } from './admin/features/product/admin-product.component';
+import { TableCustomersComponent } from './admin/features/user/user.component';
 import { AdminDashboardComponent } from './admin/features/dashboard/dashboard.component';
-import { CategoryTableAdminComponent } from './admin/features/category/category-admin.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,8 +39,7 @@ export const routes: Routes = [
   { path: 'account/reset-password', component: ResetPasswordComponent },
   { path: 'account/verify', component: verifyComponent },
   { path: 'account/set-pass', component: SetPassComponent },
-  { path: 'admin/product', component: ProductAdminComponent },
   { path: 'admin/dashboard', component: AdminDashboardComponent },
-  { path: 'admin/category', component:  CategoryTableAdminComponent},
+  { path: 'admin/account', component: TableCustomersComponent },
   { path: '**', component: NotFoundComponent, pathMatch: 'full' },
 ];
