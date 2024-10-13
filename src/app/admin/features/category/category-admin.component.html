@@ -1,0 +1,271 @@
+<div class="card">
+  <p-toast />
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="openNew()"
+      />
+      <p-button
+        severity="danger"
+        label="Delete"
+        icon="pi pi-trash"
+        (onClick)="deleteSelectedProducts()"
+        [disabled]="!selectedProducts || !selectedProducts.length"
+      />
+    </ng-template>
+    <!-- <ng-template pTemplate="right">
+            <p-fileUpload 
+                mode="basic" 
+                accept="image/*" 
+                [maxFileSize]="1000000" 
+                label="Import" 
+                chooseLabel="Import" 
+                class="mr-2 inline-block" />
+            <p-button
+                severity="help" 
+                label="Export" 
+                icon="pi pi-upload" />
+        </ng-template> -->
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="products"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'category', 'price']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedProducts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Products</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="Search..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th pSortableColumn="name" style="min-width: 15rem">
+          Name <p-sortIcon field="name" />
+        </th>
+        <th>Image</th>
+        <th pSortableColumn="price">Price <p-sortIcon field="price" /></th>
+        <th pSortableColumn="category" style="min-width: 10rem">
+          Category <p-sortIcon field="category" />
+        </th>
+        <th>Discount <p-sortIcon field="discount" /></th>
+        <!-- <th pSortableColumn="inventoryStatus" style="min-width:10rem">
+                    Status <p-sortIcon field="inventoryStatus" />
+                </th> -->
+        <th style="min-width: 10rem">Size <p-sortIcon field="size" /></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="product" />
+        </td>
+        <td>
+          {{ product.name }}
+        </td>
+        <td>
+          <img
+            [src]="product.productImages[0].imageUrl"
+            [alt]="product.name"
+            width="50"
+            class="shadow-4"
+          />
+        </td>
+        <td>
+          {{ product.price | currency : "VND" }}
+        </td>
+        <td>
+          {{ product.category }}
+        </td>
+        <td>
+          {{ product.discount }}
+        </td>
+        <td>
+            {{ product.size }}
+        </td>
+        <td>
+          {{ product.colors }}
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editProduct(product)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (onClick)="deleteProduct(product)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Cửa sổ dialog thêm 1 sản phẩm mới -->
+  <p-dialog
+    [(visible)]="productDialog"
+    [style]="{ width: '450px' }"
+    header="Product Details"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <div *ngIf="product.productImages && product.productImages.length > 0">
+        <img
+          [src]="product.productImages[0].imageUrl"
+          [alt]="product.name"
+          class="block m-auto pb-3"
+          *ngIf="product.productImages[0].imageUrl"
+        />
+      </div>
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="product.name"
+          required
+          autofocus
+        />
+        <small class="p-error" *ngIf="submitted && !product.name">
+          Name is required.
+        </small>
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          [(ngModel)]="product.description"
+          required
+          rows="3"
+          cols="20"
+        >
+        </textarea>
+      </div>
+
+      <div class="field">
+        <label class="mb-3">Category</label>
+        <div class="formgrid grid">
+          <div
+            class="field-radiobutton col-6"
+            *ngFor="let category of cas;">
+            <p-radioButton
+              [id]="'category' + category.id"
+              name="category"
+              [value]="category.name"
+              [(ngModel)]="product.category"
+            ></p-radioButton>
+            <label [for]="'category' + category.id">{{ category.name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="mb-3">Size</label>
+        <div>
+          <div class="formgrid grid">
+            <div
+              class="field-radiobutton col-6"
+              *ngFor="let size of sizes; let i = index"
+            >
+              <p-radioButton
+                [id]="'size' + size.id"
+                name="size"
+                [value]="size.name"
+                [(ngModel)]="product.size"
+              ></p-radioButton>
+              <label [for]="'size' + size.id">{{ size.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="mb-3">Color</label>
+        <div>
+          <div class="formgrid grid">
+            <div
+              class="field-checkbox col-6"
+              *ngFor="let color of colors" >
+              <p-checkbox
+                [id]="'color' + color.id"
+                name="color"
+                [value]="color.id"
+                [(ngModel)]="product.color"
+                [label]="color.name"
+              />           
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="price">Price</label>
+          <p-inputNumber
+            id="price"
+            [(ngModel)]="product.price"
+            mode="currency"
+            currency="VND"
+            locale="en-US"
+          />
+        </div>
+        <div class="field col">
+          <label for="quantity">Quantity</label>
+          <p-inputNumber id="quantity" [(ngModel)]="product.quantity" />
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="hideDialog()"
+      />
+      <p-button
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (onClick)="saveProduct()"
+      />
+    </ng-template>
+  </p-dialog>
+
+  <!-- Dialog Xóa sản phẩm -->
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

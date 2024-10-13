@@ -1,0 +1,25 @@
+:host ::ng-deep .p-dialog .product-image {
+  width: 150px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+::ng-deep .p-datatable-table {
+  min-width: unset !important;
+  width: 100%;
+}
+
+::ng-deep h5.m-0 {
+  margin-bottom: 20px !important;
+}
+
+::ng-deep img.block.m-auto.pb-3.ng-star-inserted {
+  object-fit: contain;
+  width: 50%;
+}
+
+::ng-deep .formgrid.grid {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
