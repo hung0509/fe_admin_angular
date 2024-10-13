@@ -48,7 +48,7 @@ ngOnChanges(changes: SimpleChanges): void {
 navigateBasedOnRole() {
   if (this.role === "Admin") {
     this.isAdmin = true;
-    this.router.navigate(['/admin/home']);
+    this.router.navigate(['/admin/dashboard']);
   } else {
     this.isAdmin = false;
     this.router.navigate(['/']);

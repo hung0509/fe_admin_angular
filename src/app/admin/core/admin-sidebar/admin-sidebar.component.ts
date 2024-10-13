@@ -55,21 +55,6 @@ export class AdminSidebarComponent implements OnInit{
                 icon: 'pi pi-cloud',
                 command: () => this.onItemClick('admin/voucher')
               },
-              {
-                label: 'Bài viết',
-                icon: 'pi pi-bookmark-fill',
-                command: () => this.onItemClick('admin/article')
-              },
-              {
-                label: 'Đăng xuất',
-                icon: 'pi pi-bookmark-fill',
-                command: () => this.onItemClick('account/login') // Giả sử khi đăng xuất sẽ điều hướng về trang đăng nhập
-              },
-              {
-                label: 'Test',
-                icon: 'pi pi-bookmark-fill',
-                command: () => this.onItemClick('/admin') // Giả sử khi đăng xuất sẽ điều hướng về trang đăng nhập
-              }
         ];
     }
 
