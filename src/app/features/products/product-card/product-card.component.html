@@ -1,0 +1,42 @@
+@if(product) {
+    <div class="card mb-4" routerLink="/products/{{product.slug}}">
+        <div class="card-img-wrapper">
+            <img class="main-image" src="{{baseUrl+product.mainPhoto || '../../../../assets/ao.webp'}}"
+                class="card-img-top">
+            <img class="sub-image" src="{{baseUrl+product.subPhoto}}" alt="">
+            <ul class="list-inline animate text-center">
+                <li class="list-inline-item">
+                    <button class="btn btn-dark" routerLink="/account/login">
+                    MUA NGAY</button></li>
+                <li class="list-inline-item">
+                    <button class="btn btn-dark">
+                    THÊM VÀO GIỎ HÀNG</button></li>
+            </ul>
+        </div>
+       
+        <div class="card-body p-1">
+            
+            <div class="d-inline-flex justify-content-center" style="width: 100%;">
+                @for (color of product.productColors; track null) {
+                    <span class="color-box"
+                    [ngStyle]="{'background-color': color.colorCode}">
+                    </span>
+                }
+            </div>
+            <h5 class="card-title text-center mb-1">
+                {{product.name}}
+            </h5>
+            @if(product.discount > 0) {
+                <div class="d-flex p-2 justify-content-center">
+                    <span class="col d-flex justify-content-center text-light discount"><strong>-{{product.discount}}%</strong></span>
+                    <h6 class="col d-flex justify-content-center">{{product.price*(100-product.discount)/100}}đ</h6>
+                    <h6 class="col d-flex justify-content-center price text-decoration-line-through">
+                        {{product.price}}đ</h6>
+                </div>
+            } @else {
+                <h6 class="col d-flex justify-content-center">{{product.price}}đ</h6>
+            }
+            
+        </div>
+    </div>
+}

@@ -1,0 +1,26 @@
+@if(cartItem){
+    <div class="d-flex">
+        <a href="/products/{{cartItem.slug}}">
+            <img  src="{{baseUrl+cartItem.photo}}"
+                alt="" style="height: 100px; width: 65px;">
+        </a>
+        <div class="list-group p-3" style="font-size: smaller;">
+            <h6 style="font-size: small;">{{cartItem.name}}</h6>
+            <div class="d-flex">
+                <span>{{cartItem.productVariant.color}}</span>
+                <span> / </span>
+                <span>{{cartItem.productVariant.size}}</span>
+            </div>
+            <div class="d-flex">
+                <span>{{cartItem.quantity}}</span>
+                <span>||</span>
+                @if(cartItem.discount) {
+                    <span>{{cartItem.price*(100-cartItem.discount)/100}}đ</span>
+                } @else {
+                    <span>{{cartItem.price*cartItem.quantity}}đ</span>
+                }
+            </div>
+        </div>
+        <span (click)="removeCartItem(cartItem.id)"><i class="pi pi-times" style="font-weight: bold; font-size: small;"></i></span>
+    </div>
+}

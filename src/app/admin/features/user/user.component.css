@@ -1,0 +1,22 @@
+.row-element{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.btn{
+    margin-right: 12px;
+    background-color: #3B82F6;
+    padding:12px 20px;
+}
+
+.button-user{
+    display: flex;
+}
+
+.btn-user{
+    margin-right: 12px;
+}
+.btn-user-delete{
+    margin-right: 12px;
+}

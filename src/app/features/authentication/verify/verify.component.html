@@ -1,0 +1,15 @@
+<div class="container">
+  <header>
+    <i class="bx bxs-check-shield"></i>
+  </header>
+  <h4>Enter OTP Code</h4>
+  <form (ngSubmit)="verify()">
+    <div class="input-field">
+      <input type="number" [(ngModel)]="digit1" name="digit1" placeholder="-" />
+      <input type="number" [(ngModel)]="digit2" name="digit2" placeholder="-" disabled />
+      <input type="number" [(ngModel)]="digit3" name="digit3" placeholder="-" disabled />
+      <input type="number" [(ngModel)]="digit4" name="digit4" placeholder="-" disabled />
+    </div>
+    <button type="submit">abc</button>
+  </form>
+</div>

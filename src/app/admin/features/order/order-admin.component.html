@@ -1,0 +1,150 @@
+<div class="card-wrap">
+    <div class="card">
+      <p-table
+        [value]="orders"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 5%">STT</th>
+            <th style="width: 15%">Name</th>
+            <th style="width: 20%">Address</th>
+            <th style="width: 15%">Admount</th>
+            <th style="width: 15%">Status</th>
+            <th style="width: 20%">Note</th>
+            <th style="width: 10%"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.fullname }}</td>
+            <td>{{ order.address }}</td>
+            <td>{{ order.amount }}</td>
+            <td [ngClass]="getStatusClass(order.status)">
+              {{ getStatusLabel(order.status) }}
+            </td>
+            <td>{{ order.note }}</td>
+            <td>
+              <td class="button-user" style="text-align: center">
+                <p-button
+                    class="btn-user"
+                  (onClick)="showUserDialog(order)"
+                  severity="secondary"
+                  icon="pi pi-cog"
+                />
+    
+                <p-button
+                    class="btn-user"
+                  (onClick)="confirmDeleteOrder(order)"
+                  severity="secondary"
+                  icon="pi pi-times"
+                />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <p-dialog
+      header="User Information"
+      [(visible)]="dialogVisible"
+      [style]="{ width: '30vw' }"
+    >
+      <div *ngIf="selectedOrder">
+        <div class="row-element">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="selectedOrder.fullname"
+            placeholder="-"
+          />
+        </div>
+
+        <div class="row-element">
+            <label for="name">Address:</label>
+            <input
+              type="text"
+              [(ngModel)]="selectedOrder.address"
+              placeholder="-"
+            />
+        </div>
+
+        <div class="row-element">
+          <label for="dateOfBirth">Amount:</label>
+          <input
+            type="text"
+            [(ngModel)]="selectedOrder.amount"
+            placeholder="-"
+          />
+        </div>
+        <div class="row-element">
+            <label for="Gender">Status:</label>
+            <p-radioButton 
+                name="status" 
+                [value] = "1"
+                [(ngModel)]="selectedOrder.status" 
+                inputId="1"
+                />
+            <label for="male" class="ml-2">
+              Đã hoàn thành
+            </label>
+
+            <p-radioButton 
+                name="status" 
+                [value]= "0"
+                [(ngModel)]= 'selectedOrder.status'
+                inputId="0"
+                />
+            <label for="female" class="ml-2">
+              Đang vận chuyển
+            </label>
+
+
+            <p-radioButton 
+                name="status" 
+                [value]= "-1"
+                [(ngModel)]= 'selectedOrder.status'
+                inputId="-1"
+                />
+            <label for="female" class="ml-2">
+              Đang chuẩn bị
+            </label>
+          </div>
+
+          <div class="row-element">
+            <label for="email">Note:</label>
+            <input type="text" [(ngModel)]="selectedOrder.note" placeholder="-" />
+          </div>
+      </div>
+      <p-footer>
+        <button
+            class="btn"
+          type="button"
+          pButton
+          label="Save"
+          icon="pi pi-check"
+          (click)="saveOrder()"
+        ></button>
+        <button
+            class="btn"
+          type="button"
+          pButton
+          label="Close"
+          icon="pi pi-times"
+          (click)="closeDialog()"
+        ></button>
+      </p-footer>
+    </p-dialog>
+
+    <p-dialog header="Confirm Delete" [(visible)]="displayDeleteDialog" [modal]="true" [closable]="false">
+      <p>Are you sure you want to delete user?</p>
+      <p-footer>
+        <p-button class="btn-user-delete" label="No" icon="pi pi-times" (onClick)="displayDeleteDialog = false"></p-button>
+        <p-button class="btn-user-delete" label="Yes" icon="pi pi-check" (onClick)="deleteOrder()" [severity]="'danger'"></p-button>
+      </p-footer>
+    </p-dialog>
+  </div>

@@ -1,0 +1,36 @@
+::ng-deep .p-datatable-wrapper{
+    height: 625px;
+}
+
+.row-element{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.row-element input{
+  width: 250px;
+}
+
+.pending {
+    color: red;
+  }
+  
+  .shipped {
+    color: green;
+  }
+  
+  .prepared {
+    color: gray;
+  }
+  
+  .button-user{
+    display: flex;
+}
+
+.btn-user{
+    margin-right: 12px;
+}
+.btn-user-delete{
+    margin-right: 12px;
+}
